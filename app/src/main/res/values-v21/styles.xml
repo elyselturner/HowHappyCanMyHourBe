@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <!-- Main theme colors -->
+        <item name="@android:style/Theme.Material.Light">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/white</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+</resources>
+
