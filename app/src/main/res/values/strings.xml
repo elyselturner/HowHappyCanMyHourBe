@@ -3,6 +3,14 @@
 
     <string name="app_name">How Happy Can My Hour Be</string>
     <string name="hello_world">Hello world!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="action_settings">Settings</string>
+    <string name="shared_secret">5598cbaae35347d1b7f114e78a5ced89</string>
+    <string name="api_key">c73d506cfe26483382f257ce1b853634</string>
+    <string name="login_button">Login</string>
+    <string name="sample_text_header">Sample card header</string>
+    <string name="sample_text_footer">Sample card footer</string>
+    <string name="sample_text_image">Sample image</string>
 
 </resources>
