@@ -4,74 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/red_wine"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@drawable/rounded_edge_button"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        />
     <Button
         android:id="@+id/white_wine"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@drawable/rounded_edge_button"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
     <Button
         android:id="@+id/light_beer"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@drawable/rounded_edge_button" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/regular_beer"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@drawable/rounded_edge_button"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
-
-    <TextView
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
+    <Button
+        android:id="@+id/regular_beer"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="65dp"
+        android:background="@drawable/rounded_edge_button"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
 
     <Button
         android:id="@+id/craft_beer"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@drawable/rounded_edge_button"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
 
     <Button
         android:id="@+id/"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="@drawable/rounded_edge_button"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"/>
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"/>
 
 </LinearLayout>
