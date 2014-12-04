@@ -53,7 +53,7 @@
         android:layout_marginLeft="5dp"/>
 
     <Button
-        android:id="@+id/"
+        android:id="@+id/skiing"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
