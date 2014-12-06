@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">How Happy Can My Hour Be</string>
+    <string name="app_name"></string>
     <string name="hello_world">Hello world!</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -14,5 +14,9 @@
     <string name="sample_text_footer">Sample card footer</string>
     <string name="sample_text_image">Sample image</string>
     <string name="you_have_earned_text">You have earned...</string>
+    <string name="fatsecret_consumer_key">40d2391cbdca4b9d802917da81ec98cd</string>
+    <string name="fatsecret_consumer_secret">19420ae9882e496f9b8ffcea11864273</string>
+    <string name="login">Login</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 </resources>

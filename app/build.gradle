@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.elyseturner.howhappycanmyhourbe"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -26,4 +26,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'commons-codec:commons-codec:1.5'
     compile 'oauth.signpost:oauth-signpost:1.2.1.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
+    compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
+    compile 'com.google.code.gson:gson:2.3.1'
 }

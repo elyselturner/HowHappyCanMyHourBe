@@ -1,197 +1,243 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.Activities;
 
-import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
+import com.example.elyseturner.howhappycanmyhourbe.activities.utils.FatSecretUtils;
 
-/**
- * Created by elyseturner on 11/26/14.
- */
-public class LoginActivity extends Activity {
-    private static final String TAG = LoginActivity.class.getName();
-    private EditText userName;
-    private EditText passWord;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import oauth.signpost.OAuth;
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
+import oauth.signpost.http.HttpParameters;
+import oauth.signpost.signature.HmacSha1MessageSigner;
+import oauth.signpost.signature.QueryStringSigningStrategy;
+
+public class LoginActivity extends ActionBarActivity {
+    public static final String TAG = LoginActivity.class.getName();
+    private static final String ACCESS_TOKEN_MISSING = "gone";
+
     private Button loginButton;
-
     private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
 
-        prefs = getSharedPreferences("com.example.elyseturner.howhappycanmyhourbe", MODE_PRIVATE);
+        prefs = getSharedPreferences(FatSecretUtils.PREFERENCES_FILE, MODE_PRIVATE);
+        String accessToken = prefs.getString(FatSecretUtils.OAUTH_ACCESS_TOKEN_KEY, ACCESS_TOKEN_MISSING);
 
-        userName = (EditText) findViewById(R.id.user_name);
-        passWord = (EditText) findViewById(R.id.password);
-        loginButton = (Button) findViewById(R.id.login_button);
+        if(!accessToken.equals(ACCESS_TOKEN_MISSING)) {
+            Intent home = new Intent(this, HomeActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
 
-        userName.setText(prefs.getString("username", ""));
-    }
+        setContentView(R.layout.activity_login);
 
-    public void loginButtonClicked(View v) {
-        final String userNameString = userName.getText().toString().trim();
-        final String passwordString = passWord.getText().toString().trim();
-
-        prefs.edit()
-                .putString("username", userNameString)
-                .apply();
-
-        new Thread(new Runnable() {
+        loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                
-            }
-        }).start();
-
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                long timestamp = System.currentTimeMillis();
-                HttpURLConnection urlConnection = null;
-                try {
-                    Uri oauthUrl = new Uri.Builder()
-                            .scheme("http")
-                            .authority("platform.fatsecret.com")
-                            .appendPath("rest")
-                            .appendPath("server.api")
-                            .appendQueryParameter("format", "json")
-                            .appendQueryParameter("method", "profile.getauth")
-                            .appendQueryParameter("oauth_consumer_key", getString(R.string.api_key))
-                            .appendQueryParameter("oauth_nonce", "randobrando")
-                            .appendQueryParameter("oauth_signature_method", "HMAC-SHA1")
-                            .appendQueryParameter("oauth_timestamp", "" + timestamp)
-                            .appendQueryParameter("oauth_version", "1.0")
-                            .appendQueryParameter("user_id", userNameString)
-                            .build();
-
-                    URL url = new URL(oauthUrl.toString());
-
-                    Map<String, String> oauthParams = new HashMap<String, String>();
-
-                    String consumerSecret = "c73d506cfe26483382f257ce1b853634";
-                    String accessSecret = "5598cbaae35347d1b7f114e78a5ced89";
-
-                    String oauthSignature = generateSignature("GET", url, oauthParams, null, consumerSecret + "&" + accessSecret);
-
-                    String signedUrlStr = oauthUrl.toString() +
-                            "&oauth_signature=" + oauthSignature;
-
-                    Log.d(TAG, "Signed URL = " + signedUrlStr);
-
-                    URL signedUrl = new URL(signedUrlStr);
-
-                    urlConnection = (HttpURLConnection) signedUrl.openConnection();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    String line;
-                    while((line = reader.readLine()) != null) {
-                        Log.d(TAG, line);
+            public void onClick(View v) {
+                loginButton.setEnabled(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getOAuthToken();
                     }
+                }).start();
+            }
+        });
+    }
 
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeyException e) {
-                    e.printStackTrace();
-                } finally {
-                    if(urlConnection != null) urlConnection.disconnect();
+    private void getOAuthToken() {
+        /*
+        Android users: Do NOT use the DefaultOAuth* implementations on Android, since there's a bug
+        in Android's java.net.HttpURLConnection that keeps it from working with some service
+        providers.
+
+        Instead, use the CommonsHttpOAuth* classes, since they are meant to be used with
+        Apache Commons HTTP (that's what Android uses for HTTP anyway).
+         */
+        // fatsecret_consumer_key = REST API Consumer Key, fatsecret_consumer_secret = REST API Shared Secret
+        final OAuthConsumer consumer = new CommonsHttpOAuthConsumer(getString(R.string.fatsecret_consumer_key), getString(R.string.fatsecret_consumer_secret));
+        consumer.setMessageSigner(new HmacSha1MessageSigner());
+        consumer.setSigningStrategy(new QueryStringSigningStrategy());
+
+        HttpParameters requestTokenRequestParams = new HttpParameters();
+        requestTokenRequestParams.put("oauth_callback", OAuth.OUT_OF_BAND);
+        consumer.setAdditionalParameters(requestTokenRequestParams);
+
+        try {
+            String signedRequestTokenRequestUrl = consumer.sign("http://www.fatsecret.com/oauth/request_token");
+
+            Log.d(TAG, "Signed request_token URL = " + signedRequestTokenRequestUrl);
+
+            HttpURLConnection requestTokenUrlConnection = (HttpURLConnection) new URL(signedRequestTokenRequestUrl).openConnection();
+            HttpParameters requestTokenResponseParams = OAuth.decodeForm(requestTokenUrlConnection.getInputStream());
+            final String requestToken = requestTokenResponseParams.getFirst(OAuth.OAUTH_TOKEN);
+            final String requestSecret = requestTokenResponseParams.getFirst(OAuth.OAUTH_TOKEN_SECRET);
+            Log.d(TAG, "Request token = " + requestToken);
+            Log.d(TAG, "Token secret = " + requestSecret);
+
+            final String authorizeUrl = "http://www.fatsecret.com/oauth/authorize?oauth_token=" + requestToken;
+            Log.d(TAG, "Authorize URL = " + authorizeUrl);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    final Dialog authDialog = new Dialog(LoginActivity.this);
+                    authDialog.setContentView(R.layout.auth_dialog);
+                    WebView web = (WebView) authDialog.findViewById(R.id.webv);
+                    web.getSettings().setJavaScriptEnabled(true);
+                    web.loadUrl(authorizeUrl);
+                    web.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                            super.onPageStarted(view, url, favicon);
+                        }
+
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            Log.d(TAG, "URL = " + url);
+                            if (url.contains("postVerify")) {
+                                Uri uri = Uri.parse(url);
+                                final String verifyCode = uri.getQueryParameter("postVerify");
+                                Log.i(TAG, "VERIFY : " + verifyCode);
+                                authDialog.dismiss();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                                        progressDialog.setIndeterminate(true);
+                                        progressDialog.setMessage("Fetching access token...");
+                                        progressDialog.show();
+
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                consumer.getRequestParameters().clear();
+                                                HttpParameters authTokenRequestParams = new HttpParameters();
+                                                authTokenRequestParams.put("oauth_token", requestToken);
+                                                authTokenRequestParams.put("oauth_verifier", verifyCode);
+                                                consumer.setAdditionalParameters(authTokenRequestParams);
+                                                consumer.setTokenWithSecret(requestToken, requestSecret);
+
+                                                try {
+                                                    String signedAccessTokenUrl = consumer.sign("http://www.fatsecret.com/oauth/access_token");
+                                                    Log.d(TAG, "Signed access_token URL = " + signedAccessTokenUrl);
+                                                    HttpURLConnection accessTokenUrlConnection = (HttpURLConnection) new URL(signedAccessTokenUrl).openConnection();
+                                                    HttpParameters accessTokenResponseParams = OAuth.decodeForm(accessTokenUrlConnection.getInputStream());
+
+                                                    String token = accessTokenResponseParams.getFirst(OAuth.OAUTH_TOKEN);
+                                                    String secret = accessTokenResponseParams.getFirst(OAuth.OAUTH_TOKEN_SECRET);
+                                                    prefs.edit()
+                                                            .putString(FatSecretUtils.OAUTH_ACCESS_TOKEN_KEY, token)
+                                                            .putString(FatSecretUtils.OAUTH_ACCESS_SECRET_KEY, secret)
+                                                            .apply();
+
+                                                    Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+                                                    startActivity(home);
+                                                    finish();
+                                                } catch (OAuthMessageSignerException e) {
+                                                    e.printStackTrace();
+                                                } catch (OAuthExpectationFailedException e) {
+                                                    e.printStackTrace();
+                                                } catch (OAuthCommunicationException e) {
+                                                    e.printStackTrace();
+                                                } catch (MalformedURLException e) {
+                                                    e.printStackTrace();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                } finally {
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            loginButton.setEnabled(true);
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }).start();
+                                    }
+                                });
+                            } else if (url.contains("error")) {
+                                Log.i(TAG, "authorize error");
+                                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loginButton.setEnabled(true);
+                                        authDialog.dismiss();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                    authDialog.setTitle("Authorize FatSecret");
+                    authDialog.setCancelable(true);
+                    authDialog.show();
                 }
-            }
-
-        }).start();
-        //*/
+            });
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (OAuthExpectationFailedException e) {
+            e.printStackTrace();
+        } catch (OAuthCommunicationException e) {
+            e.printStackTrace();
+        } catch (OAuthMessageSignerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    /*
-    private static String generateSignature(
-            String httpMethod,
-            URL url,
-            Map<String, String> oauthParams,
-            byte[] requestBody,
-            String secret
-    ) throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
-        // Ensure the HTTP Method is upper-cased
-        httpMethod.toUpperCase();
 
-        // Construct the URL-encoded OAuth parameter portion of the signature base string
-        String encodedParams = normalizeParams(httpMethod, url, oauthParams, requestBody);
-
-        // URL-encode the relative URL
-        String encodedUri = "http%3A%2F%2Fplatform.fatsecret.com%2Frest%2Fserver.api";
-
-        // Build the signature base string to be signed with the Consumer Secret
-        String baseString = String.format("%s&%s&%s", httpMethod, encodedUri, encodedParams);
-
-        Log.d(TAG, "Signature Base String = " + baseString);
-
-        return computeHmac(baseString, secret);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my, menu);
+        return true;
     }
 
-    private static String normalizeParams(
-            String httpMethod,
-            URL url,
-            Map<String, String> oauthParams,
-            byte[] requestBody
-    ) throws UnsupportedEncodingException
-    {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        // Use a new LinkedHashMap for the OAuth signature creation
-        Map<String, String> kvpParams = new LinkedHashMap<String, String>();
-        kvpParams.putAll(oauthParams);
-
-        // Place any query string parameters into a key value pair using equals ("=") to mark
-        // the key/value relationship and join each parameter with an ampersand ("&")
-        if (url.getQuery() != null)
-        {
-            for(String keyValue : url.getQuery().split("&"))
-            {
-                String[] p = keyValue.split("=");
-                kvpParams.put(URLEncoder.encode(p[0], "UTF-8"), URLEncoder.encode(p[1], "UTF-8"));
-            }
-
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
-        // Include the body parameter if dealing with a POST or PUT request
-        if ("POST".equals(httpMethod) || "PUT".equals(httpMethod))
-        {
-            String body = Base64.encodeBase64String(requestBody).replaceAll("\r\n", "");
-            body = URLEncoder.encode(body, "UTF-8");
-            kvpParams.put("body", URLEncoder.encode(body, "UTF-8"));
-        }
-
-        // Sort the parameters in lexicographical order, 1st by Key then by Value; separate with ("=")
-        TreeMap<String,String> sortedParams = new TreeMap<String,String>(String.CASE_INSENSITIVE_ORDER);
-        sortedParams.putAll(kvpParams);
-
-        // Remove unwanted characters and replace the comma delimiter with an ampersand
-        String stringParams = sortedParams.toString().replaceAll("[{} ]", "");
-        stringParams = stringParams.replace(",", "&");
-
-        // URL-encode the equals ("%3D") and ampersand ("%26")
-        String encodedParams = URLEncoder.encode(stringParams, "UTF-8");
-
-        return encodedParams;
+        return super.onOptionsItemSelected(item);
     }
-
-    public static String computeHmac(String baseString, String key)
-            throws NoSuchAlgorithmException, InvalidKeyException, IllegalStateException,  UnsupportedEncodingException
-    {
-        Mac mac = Mac.getInstance("HmacSHA1");
-        SecretKeySpec secret = new SecretKeySpec(key.getBytes(), mac.getAlgorithm());
-        mac.init(secret);
-        byte[] digest = mac.doFinal(baseString.getBytes());
-        byte[] result = Base64.encodeBase64(digest);
-
-        return new String(result);
-    }
-    */
 }
