@@ -5,10 +5,9 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="30dp"
         android:textSize="30dp"
         android:textColor="@color/accent"
-        android:layout_gravity="center"
         android:text="What workout did you do?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -17,21 +16,33 @@
         android:layout_marginTop="20dp"
         android:id="@+id/exercise_choice"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/time_choice_text"
         android:layout_marginTop="30dp"
         android:textSize="30dp"
         android:textColor="@color/accent"
-        android:layout_gravity="center"
         android:text="How long did you work it?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Spinner
         android:id="@+id/time_choice"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/drink_choice_text"
+        android:layout_marginTop="30dp"
+        android:textSize="30dp"
+        android:textColor="@color/accent"
+        android:text="Pick your poison"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/drink_choice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
