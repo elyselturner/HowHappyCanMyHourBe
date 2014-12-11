@@ -1,15 +1,12 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.activities;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
+import com.example.elyseturner.howhappycanmyhourbe.activities.fragments.ExerciseTimeDrinkFragment;
 
 /**
  * Created by elyseturner on 12/5/14.
@@ -22,7 +19,7 @@ public class AppActivity extends Activity{
         setContentView(R.layout.activity_container);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new ExerciseTimeDrinkFragment())
                     .commit();
         }
     }
@@ -45,21 +42,5 @@ public class AppActivity extends Activity{
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
-            return rootView;
-        }
     }
 }
