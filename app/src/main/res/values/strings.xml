@@ -31,4 +31,18 @@
         <item>90</item>
     </string-array>
 
+    <string-array name="drink_choices">
+        <item>Red Wine</item>
+        <item>White Wine</item>
+        <item>Vodka Tonic</item>
+        <item>Light Beer</item>
+        <item>Stout</item>
+        <item>Craft Beer</item>
+        <item>Dirty Martini</item>
+        <item>Margarita on the Rocks</item>
+        <item>Bourbon on the Rocks</item>
+        <item>Bloody Mary</item>
+        <item>White Russian</item>
+    </string-array>
+
 </resources>

@@ -16,6 +16,8 @@ import com.example.elyseturner.howhappycanmyhourbe.R;
  */
 public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener{
     private Spinner spinnerExercise;
+    private Spinner spinnerTime;
+    private Spinner spinnerDrink;
     private View rootView;
 
     @Override
