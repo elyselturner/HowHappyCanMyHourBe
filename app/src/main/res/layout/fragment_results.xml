@@ -3,5 +3,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <TextView
+        android:id="@+id/earned_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:textColor="@color/accent"
+        android:text="You have earned..."/>
+    <TextView
+        android:id="@+id/number_drinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="150dp"
+        android:layout_gravity="center"
+        android:textColor="@color/accent"
+        android:text="5"/>
+    <TextView
+        android:id="@+id/glasses_of"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="30dp"
+        android:textColor="@color/accent"
+        android:text="Glasses of"/>
+    <TextView
+        android:id="@+id/drink_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:textSize="70dp"
+        android:textColor="@color/accent"
+        android:text="wine!"/>
 </LinearLayout>
