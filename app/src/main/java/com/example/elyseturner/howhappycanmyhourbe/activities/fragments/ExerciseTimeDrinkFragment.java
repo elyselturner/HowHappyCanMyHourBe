@@ -32,6 +32,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         super.onViewCreated(view, savedInstanceState);
         addExerciseToSpinner(view);
         addTimeToSpinner(view);
+        addDrinkToSpinner(view);
 
     }
 
@@ -61,12 +62,44 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         spinnerTime.setOnItemSelectedListener(this);
     }
 
+    public void  addDrinkToSpinner(View rootView){
+
+        Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.drink_choices, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerDrink.setAdapter(adapter);
+
+        spinnerDrink.setOnItemSelectedListener(this);
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
 
+//        switch (parent.getId()) {
+//            case R.id.exercise_choice:
+//                Fragment ExerciseApiRequest = new Fragment();
+//                FragmentTransaction  transaction = getFragmentManager().beginTransaction();
+//
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack
+//                transaction.replace(R.id.exercise_choice, ExerciseApiRequest);
+//                transaction.addToBackStack(null);
+//
+//                // Commit the transaction
+//                transaction.commit();
+//
+//            case R.id.spinnerTime:
+//
+//            case spinnerDrink:
+//
+//        }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
