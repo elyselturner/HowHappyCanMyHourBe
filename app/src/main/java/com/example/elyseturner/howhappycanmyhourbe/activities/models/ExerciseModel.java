@@ -10,7 +10,7 @@ public class ExerciseModel implements Parcelable {
     private String name;
     private double calories;
 
-    public ExerciseModel(double calories, String name) {
+    public ExerciseModel() {
         this.calories = calories;
         this.name = name;
     }

@@ -15,6 +15,10 @@ public class DrinkModel implements Parcelable {
         this.calories = calories;
     }
 
+    public DrinkModel() {
+
+    }
+
 
     public String getName() {
         return name;

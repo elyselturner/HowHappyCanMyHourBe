@@ -15,7 +15,7 @@ import com.example.elyseturner.howhappycanmyhourbe.R;
 public class SplashScreenActivity extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 5000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
 
     /** Called when the activity is first created. */
     @Override
@@ -25,6 +25,7 @@ public class SplashScreenActivity extends Activity {
         TextView splashScreenText = (TextView) findViewById(R.id.how_happy);
         splashScreenText.setText(getString(R.string.splash_screen_text));
     }
+
 
     @Override
     public void onResume() {
