@@ -21,12 +21,13 @@ import java.util.ArrayList;
 /**
  * Created by elyseturner on 12/10/14.
  */
-public class DrinkApiRequest extends AsyncTask<Void, Void, ArrayList<DrinkModel>> {
+public abstract class DrinkApiRequest extends AsyncTask<Void, Void, ArrayList<DrinkModel>> {
     private final String NAME = "name";
     private final String CALORIES_WORTH = "calories";
     private final String LOG_TAG = "getJsonInfo";
     String apiaryString = "there was an error";
 
+    public abstract String getUrl();
 
     @Override
     protected ArrayList<DrinkModel> doInBackground(Void... params) {
@@ -36,7 +37,7 @@ public class DrinkApiRequest extends AsyncTask<Void, Void, ArrayList<DrinkModel>
         final String URL_BASE = "http://private-fdf43-exercise.apiary-mock.com/Exercise";
 
         try {
-            String urlString = URL_BASE;
+            String urlString = getUrl();
             URL urlToUSE = new URL(urlString);
 
             //this is opening the URL connection and connecting

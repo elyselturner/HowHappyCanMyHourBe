@@ -1,5 +1,6 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.parsers;
 
+import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.MyJsonParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
 
 import org.json.JSONException;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by elyseturner on 12/15/14.
  */
-public class DrinkParser {
+public class DrinkParser implements MyJsonParser<DrinkModel> {
     public ArrayList<DrinkModel> drinkModelArrayList = new ArrayList<DrinkModel>();
 
     private static final String DRINK_NAME = "name";

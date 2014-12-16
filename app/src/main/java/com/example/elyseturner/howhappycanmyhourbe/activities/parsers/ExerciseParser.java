@@ -1,5 +1,6 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.parsers;
 
+import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.MyJsonParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
 
 import org.json.JSONException;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by elyseturner on 12/15/14.
  */
-public class ExerciseParser {
+public class ExerciseParser implements MyJsonParser<ExerciseModel> {
 
     public ArrayList<ExerciseModel> exerciseModelArrayList = new ArrayList<ExerciseModel>();
 
