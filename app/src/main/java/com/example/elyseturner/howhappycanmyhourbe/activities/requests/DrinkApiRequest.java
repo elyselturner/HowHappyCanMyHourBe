@@ -23,7 +23,7 @@ public class DrinkApiRequest extends BaseApiRequest {
         return "http://private-fdf43-exercise.apiary-mock.com/Exercise";
     }
 
-    @Override
+
     protected void onPostExecute(String resultString) {
         try {
             ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultString);

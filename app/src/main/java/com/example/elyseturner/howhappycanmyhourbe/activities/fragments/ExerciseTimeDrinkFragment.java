@@ -11,7 +11,13 @@ import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
+import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
+import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 /**
  * Created by elyseturner on 12/9/14.
@@ -49,6 +55,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
             @Override
             public void onSuccess(String resultsString) {
 
+                        ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(String resultString);
             }
 
             @Override
