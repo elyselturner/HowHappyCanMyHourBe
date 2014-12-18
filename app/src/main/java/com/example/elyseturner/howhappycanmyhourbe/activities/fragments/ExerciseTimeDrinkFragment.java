@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
+import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
+import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
 
 /**
  * Created by elyseturner on 12/9/14.
@@ -42,6 +44,18 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     }
 
     public void  addExerciseToSpinner(View rootView){
+
+        new ExerciseApiRequest(new ApiCallBack() {
+            @Override
+            public void onSuccess(String resultsString) {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        }).execute();
 
         Spinner spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
         // Create an ArrayAdapter using the string array and a default spinner layout
