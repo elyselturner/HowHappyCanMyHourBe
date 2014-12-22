@@ -27,6 +27,8 @@ public class DrinkApiRequest extends BaseApiRequest {
     protected void onPostExecute(String resultString) {
         try {
             ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultString);
+
+
         } catch (JSONException e) {
         }
     }

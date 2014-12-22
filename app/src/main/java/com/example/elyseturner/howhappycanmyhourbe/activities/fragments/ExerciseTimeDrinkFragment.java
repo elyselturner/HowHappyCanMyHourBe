@@ -11,13 +11,7 @@ import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
-import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
-import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
 
 /**
  * Created by elyseturner on 12/9/14.
@@ -54,8 +48,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         new ExerciseApiRequest(new ApiCallBack() {
             @Override
             public void onSuccess(String resultsString) {
-
-                        ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(String resultString);
+                System.out.println(resultsString);
             }
 
             @Override
@@ -77,6 +70,18 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
     public void  addTimeToSpinner(View rootView){
 
+        new ExerciseApiRequest(new ApiCallBack() {
+            @Override
+            public void onSuccess(String resultsString) {
+                System.out.println(resultsString);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        }).execute();
+
         Spinner spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.time_choices, android.R.layout.simple_spinner_item);
@@ -89,6 +94,18 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     }
 
     public void  addDrinkToSpinner(View rootView){
+
+        new ExerciseApiRequest(new ApiCallBack() {
+            @Override
+            public void onSuccess(String resultsString) {
+                System.out.println(resultsString);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        }).execute();
 
         Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -106,24 +123,6 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
 
-//        switch (parent.getId()) {
-//            case R.id.exercise_choice:
-//                Fragment ExerciseApiRequest = new Fragment();
-//                FragmentTransaction  transaction = getFragmentManager().beginTransaction();
-//
-//                // Replace whatever is in the fragment_container view with this fragment,
-//                // and add the transaction to the back stack
-//                transaction.replace(R.id.exercise_choice, ExerciseApiRequest);
-//                transaction.addToBackStack(null);
-//
-//                // Commit the transaction
-//                transaction.commit();
-//
-//            case R.id.spinnerTime:
-//
-//            case spinnerDrink:
-//
-//        }
     }
 
 
@@ -131,6 +130,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 
 }
 
