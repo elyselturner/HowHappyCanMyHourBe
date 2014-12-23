@@ -1,8 +1,8 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.parsers;
 
-import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.MyJsonParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,22 +11,38 @@ import java.util.ArrayList;
 /**
  * Created by elyseturner on 12/15/14.
  */
-public class DrinkParser implements MyJsonParser<DrinkModel> {
+public class DrinkParser  {
     public ArrayList<DrinkModel> drinkModelArrayList = new ArrayList<DrinkModel>();
 
     private static final String DRINK_NAME = "name";
     private static final String CALORIES_WORTH = "calories";
 
 
-    public ArrayList<DrinkModel> parsePostingFromJsonString(String apiaryString)throws JSONException {
+    public ArrayList<DrinkModel> parsePostingFromJsonString(String apiaryString)  {
 
-        JSONObject drinkJsonObject = new JSONObject(apiaryString);
+        JSONArray drinkJsonArray = null;
+        try {
+            drinkJsonArray = new JSONArray(apiaryString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return new ArrayList<DrinkModel>();
+        }
 
-        for(int i = 0; i< drinkJsonObject.length(); i++){
+        for(int i = 0; i< drinkJsonArray.length(); i++){
             DrinkModel drinkModel = new DrinkModel();
 
-            drinkModel.setCalories(drinkJsonObject.getDouble(CALORIES_WORTH));
-            drinkModel.setName(drinkJsonObject.getString(DRINK_NAME));
+            try {
+                drinkModel.setCalories(drinkJsonArray.getDouble(CALORIES_WORTH));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return new ArrayList<DrinkModel>();
+            }
+            try {
+                drinkModel.setName(drinkJsonArray.getString(DRINK_NAME));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return new ArrayList<DrinkModel>();
+            }
 
             drinkModelArrayList.add(drinkModel);
 
