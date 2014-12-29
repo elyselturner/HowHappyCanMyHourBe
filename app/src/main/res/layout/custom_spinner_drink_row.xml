@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="3px">
 
-    <TextView android:id="@+id/text_workout"
+    <TextView android:id="@+id/text_drink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
