@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
+import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.DrinkAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
@@ -18,6 +19,7 @@ import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiR
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by elyseturner on 12/9/14.
@@ -92,14 +94,14 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
         ArrayList<DrinkModel> theInfoYouWanted = new ArrayList<DrinkModel>();
 
-        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, theInfoYouWanted );
+        adapter = new DrinkAdapter(getActivity(), R.layout.custom_spinner_drink_row, theInfoYouWanted );
 
 
         new DrinkApiRequest(new ApiCallBack() {
             @Override
             public void onSuccess(String resultsString)  {
 
-                ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultsString);
+                List<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultsString);
                 Log.d(ExerciseTimeDrinkFragment.class.getName(),theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
             }
@@ -111,12 +113,11 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         }).execute();
 
         Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.drink_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         spinnerDrink.setAdapter(adapter);
+
+
 
         spinnerDrink.setOnItemSelectedListener(this);
     }
