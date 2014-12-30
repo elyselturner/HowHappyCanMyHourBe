@@ -68,7 +68,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
                 List<ExerciseModel> theInfoYouWanted = new ExerciseParser().parsePostingFromJsonString(resultsString);
                 Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
-                
+
             }
 
             @Override
@@ -114,8 +114,8 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
                 Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
 
-//                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-//                fab.setVisibility(View.VISIBLE);
+                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+                fab.setVisibility(View.VISIBLE);
 
             }
 
@@ -137,10 +137,6 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
         String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
-
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setVisibility(View.VISIBLE);
 
     }
 
