@@ -42,7 +42,7 @@ public class DrinkParser  {
 
 
             try {
-                double calories = drinkJSONObject.getDouble(CALORIES_WORTH);
+                int calories = drinkJSONObject.getInt(CALORIES_WORTH);
                 drinkModel.setCalories(calories);
             } catch (JSONException e) {
                 e.printStackTrace();

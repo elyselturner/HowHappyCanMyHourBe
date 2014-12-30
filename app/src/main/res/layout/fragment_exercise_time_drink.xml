@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:textSize="30dp"
         android:textColor="@color/accent"
         android:text="What workout did you do?"
@@ -13,7 +13,6 @@
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:layout_marginTop="20dp"
         android:id="@+id/exercise_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

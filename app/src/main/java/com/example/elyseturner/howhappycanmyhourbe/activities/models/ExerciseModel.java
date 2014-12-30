@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 public class ExerciseModel implements Parcelable {
     private String name;
-    private double calories;
+    private int calories;
 
     public ExerciseModel() {
         this.calories = calories;
@@ -27,7 +27,7 @@ public class ExerciseModel implements Parcelable {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
@@ -45,7 +45,7 @@ public class ExerciseModel implements Parcelable {
 
     private ExerciseModel(Parcel in) {
         this.name = in.readString();
-        this.calories = in.readDouble();
+        this.calories = in.readInt();
     }
 
     public static final Parcelable.Creator<ExerciseModel> CREATOR = new Parcelable.Creator<ExerciseModel>() {

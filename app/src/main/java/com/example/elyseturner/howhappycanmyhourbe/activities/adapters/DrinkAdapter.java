@@ -37,8 +37,12 @@ public class DrinkAdapter extends ArrayAdapter<DrinkModel> {
 
         View customRow = inflater.inflate(R.layout.custom_spinner_drink_row, parent, false);
 
-        TextView fragment_exercise_time_drink = (TextView) customRow.findViewById(R.id.text_workout);
-        fragment_exercise_time_drink.setText(theInfoYouWanted.get(position).getName());
+        TextView drinkNameTextView = (TextView) customRow.findViewById(R.id.text_drink);
+        drinkNameTextView.setText(theInfoYouWanted.get(position).getName());
+
+        TextView drinkCalsTextView = (TextView) customRow.findViewById(R.id.text_cals);
+        drinkCalsTextView.setText((theInfoYouWanted.get(position).getCalories()) + " calories consumed per drink");
+
 
 
         return customRow; }

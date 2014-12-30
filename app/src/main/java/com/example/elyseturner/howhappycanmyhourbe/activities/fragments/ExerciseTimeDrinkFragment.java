@@ -12,9 +12,12 @@ import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
 import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.DrinkAdapter;
+import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.ExerciseAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
+import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
+import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.ExerciseParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiRequest;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
 
@@ -25,11 +28,6 @@ import java.util.List;
  * Created by elyseturner on 12/9/14.
  */
 public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener{
-    private Spinner spinnerExercise;
-    private Spinner spinnerTime;
-    private Spinner spinnerDrink;
-    private View rootView;
-    public ArrayAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,10 +52,18 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
     public void  addExerciseToSpinner(View rootView){
 
+        ArrayList<ExerciseModel> theInfoYouWanted = new ArrayList<ExerciseModel>();
+
+        final ExerciseAdapter adapter = new ExerciseAdapter (getActivity(), R.layout.custom_spinner_exercise_row, theInfoYouWanted);
+
+
         new ExerciseApiRequest(new ApiCallBack() {
             @Override
-            public void onSuccess(String resultsString) {
-                System.out.println(resultsString);
+            public void onSuccess(String resultsString)  {
+
+                List<ExerciseModel> theInfoYouWanted = new ExerciseParser().parsePostingFromJsonString(resultsString);
+                Log.d(ExerciseTimeDrinkFragment.class.getName(),theInfoYouWanted.toString());
+                adapter.addAll(theInfoYouWanted);
             }
 
             @Override
@@ -67,15 +73,15 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         }).execute();
 
         Spinner spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.exercise_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         spinnerExercise.setAdapter(adapter);
 
+
+
         spinnerExercise.setOnItemSelectedListener(this);
     }
+
 
     public void  addTimeToSpinner(View rootView){
 
@@ -94,7 +100,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
         ArrayList<DrinkModel> theInfoYouWanted = new ArrayList<DrinkModel>();
 
-        adapter = new DrinkAdapter(getActivity(), R.layout.custom_spinner_drink_row, theInfoYouWanted );
+        final DrinkAdapter adapter = new DrinkAdapter(getActivity(), R.layout.custom_spinner_drink_row, theInfoYouWanted );
 
 
         new DrinkApiRequest(new ApiCallBack() {

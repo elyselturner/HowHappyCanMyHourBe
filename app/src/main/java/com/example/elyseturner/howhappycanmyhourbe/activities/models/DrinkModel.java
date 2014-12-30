@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 public class DrinkModel implements Parcelable {
     private String name;
-    private double calories;
+    private int calories;
 
-    public DrinkModel(int id, String name, String type, double calories, String imgURL) {
+    public DrinkModel(int id, String name, String type, int calories, String imgURL) {
         this.name = name;
         this.calories = calories;
     }
@@ -32,7 +32,7 @@ public class DrinkModel implements Parcelable {
         return calories;
     }
 
-    public void setCalories(double calories) {
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
@@ -50,7 +50,7 @@ public class DrinkModel implements Parcelable {
 
     private DrinkModel(Parcel in) {
         this.name = in.readString();
-        this.calories = in.readDouble();
+        this.calories = in.readInt();
     }
 
     public static final Parcelable.Creator<DrinkModel> CREATOR = new Parcelable.Creator<DrinkModel>() {
