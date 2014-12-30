@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_marginTop="30dp"
+       android:id="@+id/exercise_text"
+        android:layout_marginTop="80dp"
         android:textSize="30dp"
         android:textColor="@color/accent"
         android:text="What workout did you do?"
@@ -13,13 +15,14 @@
         android:layout_height="wrap_content" />
 
     <Spinner
-        android:layout_marginTop="20dp"
         android:id="@+id/exercise_choice"
+        android:layout_below="@+id/exercise_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/time_choice_text"
+        android:layout_below="@id/exercise_choice"
         android:layout_marginTop="30dp"
         android:textSize="30dp"
         android:textColor="@color/accent"
@@ -29,12 +32,14 @@
 
     <Spinner
         android:id="@+id/time_choice"
+        android:layout_below="@+id/time_choice_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/drink_choice_text"
         android:layout_marginTop="30dp"
+        android:layout_below="@id/time_choice"
         android:textSize="30dp"
         android:textColor="@color/accent"
         android:text="Pick your poison"
@@ -43,7 +48,21 @@
 
     <Spinner
         android:id="@+id/drink_choice"
+        android:layout_below="@+id/drink_choice_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/good_arrow"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/accent_light"
+        fab:fab_colorRipple="@color/white" />
+
+</RelativeLayout>

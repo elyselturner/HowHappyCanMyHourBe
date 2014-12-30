@@ -2,6 +2,7 @@ package com.example.elyseturner.howhappycanmyhourbe.activities.parsers;
 
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,26 +13,54 @@ import java.util.ArrayList;
  */
 public class ExerciseParser {
 
-    public ArrayList<ExerciseModel> exerciseModelArrayList = new ArrayList<ExerciseModel>();
+        public ArrayList<ExerciseModel> exerciseModelArrayList = new ArrayList<ExerciseModel>();
 
-    private static final String EXERCISE_NAME = "name";
-    private static final String CALORIES_BURNED = "calories";
+        private static final String EXERCISE_NAME = "name";
+        private static final String CALORIES_WORTH = "calories";
 
 
-    public ArrayList<ExerciseModel> parsePostingFromJsonString(String apiaryString)throws JSONException {
+        public ArrayList<ExerciseModel> parsePostingFromJsonString(String apiaryString)  {
 
-        JSONObject exerciseJsonObject = new JSONObject(apiaryString);
+            JSONArray exerciseJsonArray = null;
 
-        for(int i = 0; i< exerciseJsonObject.length(); i++){
-            ExerciseModel exerciseModel = new ExerciseModel();
 
-            exerciseModel.setCalories(exerciseJsonObject.getDouble(CALORIES_BURNED));
-            exerciseModel.setName(exerciseJsonObject.getString(EXERCISE_NAME));
+            try {
+                exerciseJsonArray = new JSONArray(apiaryString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return new ArrayList<ExerciseModel>();
+            }
 
-            exerciseModelArrayList.add(exerciseModel);
+            for(int i = 0; i< exerciseJsonArray.length(); i++){
+                JSONObject exerciseJSONObject = null;
+                try {
+                    exerciseJSONObject = exerciseJsonArray.getJSONObject(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                ExerciseModel exerciseModel = new ExerciseModel();
+
+
+                try {
+                    int calories = exerciseJSONObject.getInt(CALORIES_WORTH);
+                    exerciseModel.setCalories(calories);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return new ArrayList<ExerciseModel>();
+                }
+                try {
+                    String exerciseName = exerciseJSONObject.getString(EXERCISE_NAME);
+                    exerciseModel.setName(exerciseName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return new ArrayList<ExerciseModel>();
+                }
+
+                exerciseModelArrayList.add(exerciseModel);
+
+            }
+
+            return exerciseModelArrayList;
         }
-
-        return exerciseModelArrayList;
     }
-}

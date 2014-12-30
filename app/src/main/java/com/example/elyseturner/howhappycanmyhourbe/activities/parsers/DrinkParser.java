@@ -21,6 +21,8 @@ public class DrinkParser  {
     public ArrayList<DrinkModel> parsePostingFromJsonString(String apiaryString)  {
 
         JSONArray drinkJsonArray = null;
+
+
         try {
             drinkJsonArray = new JSONArray(apiaryString);
         } catch (JSONException e) {
@@ -29,16 +31,26 @@ public class DrinkParser  {
         }
 
         for(int i = 0; i< drinkJsonArray.length(); i++){
+            JSONObject drinkJSONObject = null;
+            try {
+                drinkJSONObject = drinkJsonArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             DrinkModel drinkModel = new DrinkModel();
 
+
             try {
-                drinkModel.setCalories(drinkJsonArray.getDouble(CALORIES_WORTH));
+                int calories = drinkJSONObject.getInt(CALORIES_WORTH);
+                drinkModel.setCalories(calories);
             } catch (JSONException e) {
                 e.printStackTrace();
                 return new ArrayList<DrinkModel>();
             }
             try {
-                drinkModel.setName(drinkJsonArray.getString(DRINK_NAME));
+                String drinkName = drinkJSONObject.getString(DRINK_NAME);
+                drinkModel.setName(drinkName);
             } catch (JSONException e) {
                 e.printStackTrace();
                 return new ArrayList<DrinkModel>();

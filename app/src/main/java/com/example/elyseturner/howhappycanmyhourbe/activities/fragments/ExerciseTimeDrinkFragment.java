@@ -11,35 +11,38 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
+import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.DrinkAdapter;
+import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.ExerciseAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
+import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
+import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.ExerciseParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiRequest;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by elyseturner on 12/9/14.
  */
-public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener{
-    private Spinner spinnerExercise;
-    private Spinner spinnerTime;
-    private Spinner spinnerDrink;
-    private View rootView;
-    public ArrayAdapter adapter;
+public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_time_drink, container, false);
         return rootView;
-    }
 
+
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -48,14 +51,24 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         addTimeToSpinner(view);
         addDrinkToSpinner(view);
 
+
     }
 
-    public void  addExerciseToSpinner(View rootView){
+    public void addExerciseToSpinner(View rootView) {
+
+        ArrayList<ExerciseModel> theInfoYouWanted = new ArrayList<ExerciseModel>();
+
+        final ExerciseAdapter adapter = new ExerciseAdapter(getActivity(), R.layout.custom_spinner_exercise_row, theInfoYouWanted);
+
 
         new ExerciseApiRequest(new ApiCallBack() {
             @Override
             public void onSuccess(String resultsString) {
-                System.out.println(resultsString);
+
+                List<ExerciseModel> theInfoYouWanted = new ExerciseParser().parsePostingFromJsonString(resultsString);
+                Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
+                adapter.addAll(theInfoYouWanted);
+
             }
 
             @Override
@@ -65,57 +78,56 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         }).execute();
 
         Spinner spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.exercise_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+
+
         spinnerExercise.setAdapter(adapter);
+
 
         spinnerExercise.setOnItemSelectedListener(this);
     }
 
-    public void  addTimeToSpinner(View rootView){
+
+    public void addTimeToSpinner(View rootView) {
 
         Spinner spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
-        // Create an ArrayAdapter using the string array and a default spinner layout
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.time_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+
         spinnerTime.setAdapter(adapter);
 
         spinnerTime.setOnItemSelectedListener(this);
     }
 
-    public void  addDrinkToSpinner(View rootView){
-
+    public void addDrinkToSpinner(final View rootView) {
         ArrayList<DrinkModel> theInfoYouWanted = new ArrayList<DrinkModel>();
 
-        adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, theInfoYouWanted );
+        final DrinkAdapter adapter = new DrinkAdapter(getActivity(), R.layout.custom_spinner_drink_row, theInfoYouWanted);
 
 
         new DrinkApiRequest(new ApiCallBack() {
             @Override
-            public void onSuccess(String resultsString)  {
+            public void onSuccess(String resultsString) {
 
-                ArrayList<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultsString);
-                Log.d(ExerciseTimeDrinkFragment.class.getName(),theInfoYouWanted.toString());
+                List<DrinkModel> theInfoYouWanted = new DrinkParser().parsePostingFromJsonString(resultsString);
+                Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
+
+                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+                fab.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void onFailure() {
 
+
             }
         }).execute();
 
         Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.drink_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+
         spinnerDrink.setAdapter(adapter);
 
         spinnerDrink.setOnItemSelectedListener(this);
@@ -123,7 +135,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
         String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
 
     }
