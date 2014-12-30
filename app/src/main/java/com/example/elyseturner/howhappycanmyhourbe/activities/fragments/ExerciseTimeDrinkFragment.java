@@ -1,11 +1,13 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.fragments;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -38,6 +40,20 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_time_drink, container, false);
         return rootView;
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewOutlineProvider newOutline = ViewOutlineProvider.BACKGROUND;
+
+            //this is setting the image button with id "fab" to have a new view outline provider
+            rootView.findViewById(R.id.fab).setOutlineProvider(newOutline);
+        }
+
+//        int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
+//        ViewOutlineProvider outline = new ViewOutlineProvider() {
+//
+//        ViewOutlineProvider.setRectangle(0, 0, size, size);
+//        rootView.findViewById(R.id.fab).setOutlineProvider(new Outline);
     }
 
 
