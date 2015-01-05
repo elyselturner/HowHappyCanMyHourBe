@@ -116,6 +116,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
                 FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
                 fab.setVisibility(View.VISIBLE);
+//                fab.setOnClickListener(new );
 
             }
 
@@ -138,15 +139,25 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
         String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
 
+        Spinner spinnerExercise = (Spinner) view.findViewById(R.id.exercise_choice);
+        spinnerExercise.setOnItemSelectedListener(this);
+
+        Spinner spinnerTime = (Spinner) view.findViewById(R.id.time_choice);
+        spinnerTime.setOnItemSelectedListener(this);
+
+        Spinner spinnerDrink = (Spinner) view.findViewById(R.id.drink_choice);
+        spinnerDrink.setOnItemSelectedListener(this);
+
     }
 
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+        
     }
 
-    
+
 
 
 
