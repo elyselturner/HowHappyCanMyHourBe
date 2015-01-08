@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -28,7 +27,9 @@ import java.util.List;
 /**
  * Created by elyseturner on 12/9/14.
  */
-public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ExerciseTimeDrinkFragment extends Fragment  {
+    private Spinner spinnerExercise, spinnerTime, spinnerDrink;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,14 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         addTimeToSpinner(view);
         addDrinkToSpinner(view);
 
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //calls method that calculates this and then assigns that value to a float
+                //look at mentor app to see how to switch  fragments may want an interface here
+            }
+        });
 
     }
 
@@ -77,27 +86,22 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
             }
         }).execute();
 
-        Spinner spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
-
+        spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
 
         spinnerExercise.setAdapter(adapter);
 
-
-        spinnerExercise.setOnItemSelectedListener(this);
     }
 
 
     public void addTimeToSpinner(View rootView) {
 
-        Spinner spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
+       spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.time_choices, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerTime.setAdapter(adapter);
-
-        spinnerTime.setOnItemSelectedListener(this);
     }
 
     public void addDrinkToSpinner(final View rootView) {
@@ -114,53 +118,21 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
                 Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
 
-                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
                 fab.setVisibility(View.VISIBLE);
-//                fab.setOnClickListener(new );
 
             }
 
             @Override
             public void onFailure() {
 
-
             }
         }).execute();
 
-        Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
+        spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
 
         spinnerDrink.setAdapter(adapter);
-
-        spinnerDrink.setOnItemSelectedListener(this);
     }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
-        String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
-
-        Spinner spinnerExercise = (Spinner) view.findViewById(R.id.exercise_choice);
-        spinnerExercise.setOnItemSelectedListener(this);
-
-        Spinner spinnerTime = (Spinner) view.findViewById(R.id.time_choice);
-        spinnerTime.setOnItemSelectedListener(this);
-
-        Spinner spinnerDrink = (Spinner) view.findViewById(R.id.drink_choice);
-        spinnerDrink.setOnItemSelectedListener(this);
-
-    }
-
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-        
-    }
-
-
-
-
-
 
 }
 
