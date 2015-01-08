@@ -15,10 +15,8 @@ import com.example.elyseturner.howhappycanmyhourbe.R;
 import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.DrinkAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.ExerciseAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
-import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ChangeFragmentListener;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
-import com.example.elyseturner.howhappycanmyhourbe.activities.models.MinutesModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.ExerciseParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiRequest;
@@ -31,7 +29,7 @@ import java.util.List;
 /**
  * Created by elyseturner on 12/9/14.
  */
-public class ExerciseTimeDrinkFragment extends Fragment implements ChangeFragmentListener {
+public class ExerciseTimeDrinkFragment extends Fragment  {
     private Spinner spinnerExercise, spinnerTime, spinnerDrink;
     private FloatingActionButton fab;
 
@@ -65,17 +63,19 @@ public class ExerciseTimeDrinkFragment extends Fragment implements ChangeFragmen
                 ExerciseModel selectedExercise = (ExerciseModel) spinnerExercise.getSelectedItem();
                 double exerciseCals = selectedExercise.getCalories();
 
-                MinutesModel selectedTime = (MinutesModel) spinnerTime.getSelectedItem();
-                double exerciseTime = selectedTime.getMinutes();
+                String selectedTime = (String) spinnerTime.getSelectedItem();
+                double exerciseTime = Double.parseDouble(selectedTime);
 
                 DrinkModel selectedDrink = (DrinkModel) spinnerDrink.getSelectedItem();
                 double drinkCals = selectedDrink.getCalories();
                 String drinkName = selectedDrink.getName();
 
-                drinksEarnedEquation(exerciseCals, exerciseTime, drinkCals);
+                double drinksEarned = drinksEarnedEquation(exerciseCals, exerciseTime, drinkCals);
+
+
 
                 FragmentManager fragmentManager = getFragmentManager();
-                ResultsFragment resultsFragment = new ResultsFragment();
+                ResultsFragment resultsFragment = ResultsFragment.newInstance(drinkName, drinksEarned);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                 transaction.replace(R.id.container, resultsFragment);
@@ -170,8 +170,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements ChangeFragmen
     public  double drinksEarnedEquation(double exerciseCals, double exerciseTime, double drinkCals){
 
         double drinksEarned = (exerciseCals * exerciseTime)/drinkCals;
-
-
+        
         return drinksEarned;
     }
 
