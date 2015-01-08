@@ -1,6 +1,8 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +15,10 @@ import com.example.elyseturner.howhappycanmyhourbe.R;
 import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.DrinkAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.adapters.ExerciseAdapter;
 import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ApiCallBack;
+import com.example.elyseturner.howhappycanmyhourbe.activities.interfaces.ChangeFragmentListener;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.DrinkModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.models.ExerciseModel;
+import com.example.elyseturner.howhappycanmyhourbe.activities.models.MinutesModel;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.DrinkParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.parsers.ExerciseParser;
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiRequest;
@@ -27,7 +31,7 @@ import java.util.List;
 /**
  * Created by elyseturner on 12/9/14.
  */
-public class ExerciseTimeDrinkFragment extends Fragment  {
+public class ExerciseTimeDrinkFragment extends Fragment implements ChangeFragmentListener {
     private Spinner spinnerExercise, spinnerTime, spinnerDrink;
     private FloatingActionButton fab;
 
@@ -56,12 +60,38 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //gets the items from the spinners
+                ExerciseModel selectedExercise = (ExerciseModel) spinnerExercise.getSelectedItem();
+                double exerciseCals = selectedExercise.getCalories();
+
+                MinutesModel selectedTime = (MinutesModel) spinnerTime.getSelectedItem();
+                double exerciseTime = selectedTime.getMinutes();
+
+                DrinkModel selectedDrink = (DrinkModel) spinnerDrink.getSelectedItem();
+                double drinkCals = selectedDrink.getCalories();
+                String drinkName = selectedDrink.getName();
+
+                drinksEarnedEquation(exerciseCals, exerciseTime, drinkCals);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                ResultsFragment resultsFragment = new ResultsFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                transaction.replace(R.id.container, resultsFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
+
+
                 //calls method that calculates this and then assigns that value to a float
                 //look at mentor app to see how to switch  fragments may want an interface here
             }
         });
-
     }
+
+
 
     public void addExerciseToSpinner(View rootView) {
 
@@ -102,6 +132,7 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerTime.setAdapter(adapter);
+
     }
 
     public void addDrinkToSpinner(final View rootView) {
@@ -132,6 +163,16 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
         spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
 
         spinnerDrink.setAdapter(adapter);
+
+
+    }
+
+    public  double drinksEarnedEquation(double exerciseCals, double exerciseTime, double drinkCals){
+
+        double drinksEarned = (exerciseCals * exerciseTime)/drinkCals;
+
+
+        return drinksEarned;
     }
 
 }
