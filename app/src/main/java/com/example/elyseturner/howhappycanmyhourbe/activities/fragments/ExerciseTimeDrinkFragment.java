@@ -83,10 +83,6 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
 
                 transaction.commit();
 
-
-
-                //calls method that calculates this and then assigns that value to a float
-                //look at mentor app to see how to switch  fragments may want an interface here
             }
         });
     }
@@ -169,8 +165,9 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
 
     public  double drinksEarnedEquation(double exerciseCals, double exerciseTime, double drinkCals){
 
-        double drinksEarned = (exerciseCals * exerciseTime)/drinkCals;
-        
+        double drinksEarned = Math.round((exerciseCals * exerciseTime)/drinkCals);
+
+
         return drinksEarned;
     }
 
