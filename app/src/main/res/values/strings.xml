@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name"></string>
+    <string name="app_name">How Happy Can My Hour Be</string>
     <string name="splash_screen_text">How Happy Can My Hour Be?</string>
 
-    <string-array name="exercise_choices">
-        <item>Running</item>
-        <item>Kickboxing</item>
-        <item>Walking</item>
-        <item>Weight Lifting</item>
-        <item>Pilates</item>
-        <item>Yoga</item>
-        <item>Swimming</item>
-        <item>Spinning</item>
-        <item>Circuit Training</item>
-        <item>Dancing</item>
-        <item>Elliptical Trainer</item>
-        <item>Zumba</item>
-    </string-array>
 
     <string-array name="time_choices">
         <item>10</item>
@@ -29,20 +15,6 @@
         <item>70</item>
         <item>80</item>
         <item>90</item>
-    </string-array>
-
-    <string-array name="drink_choices">
-        <item>Red Wine</item>
-        <item>White Wine</item>
-        <item>Vodka Tonic</item>
-        <item>Light Beer</item>
-        <item>Stout</item>
-        <item>Craft Beer</item>
-        <item>Dirty Martini</item>
-        <item>Margarita on the Rocks</item>
-        <item>Bourbon on the Rocks</item>
-        <item>Bloody Mary</item>
-        <item>White Russian</item>
     </string-array>
 
 </resources>

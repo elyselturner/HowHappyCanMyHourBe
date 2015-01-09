@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 public class ExerciseModel implements Parcelable {
     private String name;
-    private int calories;
+    private double calories;
 
     public ExerciseModel() {
         this.calories = calories;

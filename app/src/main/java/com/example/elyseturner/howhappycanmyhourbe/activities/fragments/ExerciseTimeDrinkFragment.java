@@ -1,12 +1,13 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -28,7 +29,9 @@ import java.util.List;
 /**
  * Created by elyseturner on 12/9/14.
  */
-public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class ExerciseTimeDrinkFragment extends Fragment  {
+    private Spinner spinnerExercise, spinnerTime, spinnerDrink;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,40 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
         addTimeToSpinner(view);
         addDrinkToSpinner(view);
 
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                //gets the items from the spinners
+                ExerciseModel selectedExercise = (ExerciseModel) spinnerExercise.getSelectedItem();
+                double exerciseCals = selectedExercise.getCalories();
+
+                String selectedTime = (String) spinnerTime.getSelectedItem();
+                double exerciseTime = Double.parseDouble(selectedTime);
+
+                DrinkModel selectedDrink = (DrinkModel) spinnerDrink.getSelectedItem();
+                double drinkCals = selectedDrink.getCalories();
+                String drinkName = selectedDrink.getName();
+
+                double drinksEarned = drinksEarnedEquation(exerciseCals, exerciseTime, drinkCals);
+
+
+
+                FragmentManager fragmentManager = getFragmentManager();
+                ResultsFragment resultsFragment = ResultsFragment.newInstance(drinkName, drinksEarned);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                transaction.replace(R.id.container, resultsFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
+            }
+        });
     }
+
+
 
     public void addExerciseToSpinner(View rootView) {
 
@@ -77,19 +112,16 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
             }
         }).execute();
 
-        Spinner spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
-
+        spinnerExercise = (Spinner) rootView.findViewById(R.id.exercise_choice);
 
         spinnerExercise.setAdapter(adapter);
 
-
-        spinnerExercise.setOnItemSelectedListener(this);
     }
 
 
     public void addTimeToSpinner(View rootView) {
 
-        Spinner spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
+       spinnerTime = (Spinner) rootView.findViewById(R.id.time_choice);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.time_choices, android.R.layout.simple_spinner_item);
 
@@ -97,7 +129,6 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
 
         spinnerTime.setAdapter(adapter);
 
-        spinnerTime.setOnItemSelectedListener(this);
     }
 
     public void addDrinkToSpinner(final View rootView) {
@@ -114,7 +145,7 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
                 Log.d(ExerciseTimeDrinkFragment.class.getName(), theInfoYouWanted.toString());
                 adapter.addAll(theInfoYouWanted);
 
-                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
                 fab.setVisibility(View.VISIBLE);
 
             }
@@ -122,30 +153,23 @@ public class ExerciseTimeDrinkFragment extends Fragment implements AdapterView.O
             @Override
             public void onFailure() {
 
-
             }
         }).execute();
 
-        Spinner spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
+        spinnerDrink = (Spinner) rootView.findViewById(R.id.drink_choice);
 
         spinnerDrink.setAdapter(adapter);
 
-        spinnerDrink.setOnItemSelectedListener(this);
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
-        String itemSelectedInSpinner = parent.getItemAtPosition(position).toString();
 
     }
 
+    public  double drinksEarnedEquation(double exerciseCals, double exerciseTime, double drinkCals){
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        double drinksEarned = Math.round((exerciseCals * exerciseTime)/drinkCals);
 
+
+        return drinksEarned;
     }
-
 
 }
 
