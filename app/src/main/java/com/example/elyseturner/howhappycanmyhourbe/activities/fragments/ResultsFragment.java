@@ -1,11 +1,13 @@
 package com.example.elyseturner.howhappycanmyhourbe.activities.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
 
@@ -54,6 +56,12 @@ public class ResultsFragment extends Fragment{
 
         TextView winningDrink = (TextView) rootView.findViewById(R.id.drink_type_text);
         winningDrink.setText(drinkName);
+
+        Context context = getActivity();
+        CharSequence text = "If you are over 21, please drink responsibly";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast.makeText(context, text, duration).show();
 
         return rootView;
     }
