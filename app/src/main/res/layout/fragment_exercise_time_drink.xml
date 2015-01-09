@@ -4,14 +4,16 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
 
     <TextView
        android:id="@+id/exercise_text"
-        android:layout_marginTop="70dp"
-        android:textSize="30dp"
+        android:layout_marginTop="60dp"
+        android:textSize="27dp"
         android:textColor="@color/accent"
-        android:text="What workout did you do?"
+        android:text="Which workout did you do?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -25,9 +27,9 @@
         android:id="@+id/time_choice_text"
         android:layout_below="@id/exercise_choice"
         android:layout_marginTop="30dp"
-        android:textSize="30dp"
+        android:textSize="27dp"
         android:textColor="@color/accent"
-        android:text="How long did you work it?"
+        android:text="For how long in minutes?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -41,9 +43,9 @@
         android:id="@+id/drink_choice_text"
         android:layout_marginTop="30dp"
         android:layout_below="@id/time_choice"
-        android:textSize="30dp"
+        android:textSize="27dp"
         android:textColor="@color/accent"
-        android:text="Pick your poison"
+        android:text="Pick your poison:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
