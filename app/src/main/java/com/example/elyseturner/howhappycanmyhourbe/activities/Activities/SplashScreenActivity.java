@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.elyseturner.howhappycanmyhourbe.R;
 
@@ -15,15 +14,15 @@ import com.example.elyseturner.howhappycanmyhourbe.R;
 public class SplashScreenActivity extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2000;
+    private final int SPLASH_DISPLAY_LENGTH = 4000;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_splash_screen);
-        TextView splashScreenText = (TextView) findViewById(R.id.how_happy);
-        splashScreenText.setText(getString(R.string.splash_screen_text));
+//        TextView splashScreenText = (TextView) findViewById(R.id.how_happy);
+//        splashScreenText.setText(getString(R.string.splash_screen_text));
     }
 
 
@@ -32,8 +31,8 @@ public class SplashScreenActivity extends Activity {
         super.onResume();
         // Load the ImageView that will host the animation and
         // set its background to our AnimationDrawable XML resource.
-        ImageView splashScreenImage = (ImageView)findViewById(R.id.happy_hour_sign);
-        splashScreenImage.setBackgroundResource(R.drawable.happyhour);
+        ImageView splashScreenImage = (ImageView)findViewById(R.id.beer);
+        splashScreenImage.setBackgroundResource(R.drawable.orange);
 
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/

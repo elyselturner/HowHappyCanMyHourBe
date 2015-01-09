@@ -23,6 +23,7 @@ import com.example.elyseturner.howhappycanmyhourbe.activities.requests.DrinkApiR
 import com.example.elyseturner.howhappycanmyhourbe.activities.requests.ExerciseApiRequest;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +166,8 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
 
     public  double drinksEarnedEquation(double exerciseCals, double exerciseTime, double drinkCals){
 
-        double drinksEarned = Math.round((exerciseCals * exerciseTime)/drinkCals);
+        DecimalFormat decimalFormat=new DecimalFormat("#.#");
+        double drinksEarned = Math.ceil((exerciseCals * exerciseTime)/drinkCals);
 
 
         return drinksEarned;
