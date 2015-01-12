@@ -60,7 +60,7 @@ public class ExerciseTimeDrinkFragment extends Fragment  {
             @Override
             public void onClick(View view) {
 
-                //gets the items from the spinners
+
                 ExerciseModel selectedExercise = (ExerciseModel) spinnerExercise.getSelectedItem();
                 double exerciseCals = selectedExercise.getCalories();
 
